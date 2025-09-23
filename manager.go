@@ -157,14 +157,20 @@ func createSymlink(targetPath, binDir, symlinkName string) error {
 		return fmt.Errorf("failed to remove existing file/directory at symlink location: %w", err)
 	}
 
-	if err := os.Symlink(targetPath, symlinkPath); err != nil {
+	// Convert target path to absolute path to ensure symlink works correctly
+	absTargetPath, err := filepath.Abs(targetPath)
+	if err != nil {
+		return fmt.Errorf("failed to resolve absolute path for target: %w", err)
+	}
+
+	if err := os.Symlink(absTargetPath, symlinkPath); err != nil {
 		return fmt.Errorf("failed to create symlink: %w", err)
 	}
 
-	if err := os.Chmod(targetPath, 0755); err != nil {
+	if err := os.Chmod(absTargetPath, 0755); err != nil {
 		fmt.Printf("Warning: failed to make target executable: %v\n", err)
 	}
 
-	fmt.Printf("Created symlink: %s -> %s\n", symlinkPath, targetPath)
+	fmt.Printf("Created symlink: %s -> %s\n", symlinkPath, absTargetPath)
 	return nil
 }
