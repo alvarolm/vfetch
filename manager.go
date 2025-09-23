@@ -53,7 +53,7 @@ func ProcessFetchItem(config *Config, item FetchItem) error {
 
 	if item.Extract {
 		fmt.Printf("Extracting archive...\n")
-		extractResult, err := ExtractArchive(downloadResult.Data, item.Name)
+		extractResult, err := ExtractArchive(downloadResult.Data, downloadResult.Filename)
 		if err != nil {
 			return fmt.Errorf("extraction failed: %w", err)
 		}

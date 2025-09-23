@@ -99,15 +99,16 @@ vfetch -config my-tools.json
 Example `my-tools.json`:
 ```json
 {
-  "output-dir": "/opt/tools",
+  "output-dir": "/home/user/tools",
   "bins-dir": "/home/user/.bin",
   "fetch": [
     {
       "name": "esbuild",
-      "url": "https://esbuild.github.io/dl/v$VERSION",
+      "url": "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-$VERSION.tgz",
       "version": "0.25.10",
-      "hash": "sha256:900b231b4d53dbd69e08f1e11ba1b406b1af588c9f4c2c560502012d974f7121",
-      "bin-file": true
+      "hash": "sha256:25a7b968b8e5172baaa8f44f91b71c1d2d7e760042c691f22ab59527d870d145",
+      "bin-file": "/package/bin/esbuild",
+      "extract": true
     }
   ]
 }

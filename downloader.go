@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
+	"path"
 	"strings"
 
 	"golang.org/x/crypto/blake2b"
@@ -14,7 +16,8 @@ import (
 )
 
 type DownloadResult struct {
-	Data []byte
+	Data     []byte
+	Filename string
 }
 
 func DownloadFile(url string) (*DownloadResult, error) {
@@ -33,9 +36,29 @@ func DownloadFile(url string) (*DownloadResult, error) {
 		return nil, fmt.Errorf("failed to read response body: %w", err)
 	}
 
+	filename, err := getFilenameFromURL(url)
+	if err != nil {
+		return nil, fmt.Errorf("failed to extract filename from URL: %w", err)
+	}
+
 	return &DownloadResult{
-		Data: data,
+		Data:     data,
+		Filename: filename,
 	}, nil
+}
+
+func getFilenameFromURL(url_ string) (string, error) {
+	u, err := url.Parse(url_)
+	if err != nil {
+		return "", err
+	}
+
+	filename := path.Base(u.Path)
+	if filename == "/" || filename == "." {
+		return "download", nil
+	}
+
+	return filename, nil
 }
 
 func verifySHA256(data []byte, hash string) error {
