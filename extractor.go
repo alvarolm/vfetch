@@ -31,6 +31,8 @@ func ExtractArchive(data []byte, filename string) (*ExtractionResult, error) {
 			return extractTarGz(data)
 		}
 		return extractGzip(data, filename)
+	case ".tgz":
+		return extractTarGz(data)
 	case ".tar":
 		return extractTar(data)
 	default:
