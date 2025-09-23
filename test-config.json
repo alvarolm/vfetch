@@ -1,0 +1,23 @@
+{
+  "output-dir": "/tmp/verifetch-output",
+  "bins-dir": "/tmp/verifetch-bins",
+  "fetch": [
+    {
+      "name": "simple-file-download",
+      "url": "https://raw.githubusercontent.com/golang/go/master/README.md",
+      "version": "latest",
+      "hash": "sha256:f47dceafac14c7b01b5b636b8db1ff0cde91d16e3f49e73a10b4d79cb1a4af3c",
+      "extract": false,
+      "bin-file": true
+    },
+    {
+      "name": "zip-extraction-test",
+      "url": "https://github.com/goreleaser/goreleaser/releases/download/v1.21.2/goreleaser_Linux_x86_64.tar.gz",
+      "version": "v1.21.2",
+      "hash": "sha256:d40934e2e1a36fcf7e8a8860fbd5a88d6c6d4c8b7d1c9d2b9a8f5d3f4e9f1b4a",
+      "extract": true,
+      "bin-file": "goreleaser",
+      "output-dir": "/tmp/verifetch-goreleaser"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  // Global configuration settings
+  "output-dir": "/tmp/verifetch-test",  // Default directory where output file(s) will be stored
+  "bins-dir": "/tmp/verifetch-bins",    // Default directory where binary files will be placed (as symlinks)
+
+  // Array of items to fetch and verify
+  "fetch": [
+    {
+      // ***REQUIRED***
+      // Human-readable name for this fetch item 
+      // Used as the filename when saving and as the binary name when bin-file is true,
+      // Also used as a root directory name when extracting archives
+      "name": "go",
+
+      // ***REQUIRED***
+      // URL to download from (required)
+      // Supports version placeholder: $VERSION will be replaced with the version value
+      "url": "https://go.dev/dl/go$VERSION.linux-amd64.tar.gz",
+
+      // ***REQUIRED***
+      // Version identifier for this download (used for organizing/identification)
+      // Cannot contain placeholder - use actual version values only
+      "version": "1.21.6",
+
+      // ***REQUIRED***
+      // Hash verification - use either "hash" OR "hashes", not both
+      // Format: "algorithm:hexvalue" where algorithm can be: sha256, sha512, sha3, blake2b, blake2s
+      "hash": "sha256:3f934f40ac360b9c01f616a9aa1796d227d8b0328bf64cb045c7b8c4ee9caea4",
+
+      // Alternative: multiple hashes for verification (use instead of "hash")
+      // "hashes": [
+      //   "sha256:3f934f40ac360b9c01f616a9aa1796d227d8b0328bf64cb045c7b8c4ee9caea4",
+      //   "sha512:another_hash_here"
+      // ],
+
+      // Whether to extract the downloaded file (if it's an archive)
+      "extract": true,
+
+      // Binary file handling (optional)
+      // Can be:
+      //   - true: use the downloaded filename as the binary
+      //   - false: don't treat as binary
+      //   - "path/to/file": specific path within extracted content (when extract=true)
+      "bin-file": "go/bin/go",
+
+      // Override the global bins-dir for this specific item (optional)
+      // "bin-dir": "/custom/bin/path",
+
+      // Override the global output-dir for this specific item (optional)
+      // "output-dir": "/tmp/verifetch-go",
+
+      // Documentation URLs (optional)
+      "home-url": "https://go.dev/",
+      "source-url": "https://github.com/golang/go",
+      "license-url": "https://go.dev/LICENSE",
+      "author-url": "https://golang.org/team"
+    }
+
+    // Example with version placeholders in GitHub releases:
+    // {
+    //   "name": "github-release-with-version",
+    //   "url": "https://github.com/user/repo/releases/download/v$version/binary-$version-linux.tar.gz",
+    //   "version": "2.1.0",
+    //   "hash": "sha256:abcdef1234567890...",
+    //   "extract": true,
+    //   "bin-file": "binary",
+    //   "home-url": "https://github.com/user/repo",
+    //   "source-url": "https://github.com/user/repo",
+    //   "license-url": "https://github.com/user/repo/blob/main/LICENSE",
+    //   "author-url": "https://github.com/user"
+    // }
+
+    // Example with uppercase VERSION placeholder:
+    // {
+    //   "name": "api-download-with-uppercase",
+    //   "url": "https://api.example.com/releases/$VERSION/package.zip",
+    //   "version": "v3.2.1",
+    //   "hash": "sha256:fedcba0987654321...",
+    //   "extract": false,
+    //   "bin-file": true
+    // }
+
+    // Example of a simple file download (no placeholders):
+    // {
+    //   "name": "simple-download",
+    //   "url": "https://example.com/file.bin",
+    //   "version": "latest",
+    //   "hash": "sha256:abcdef1234567890...",
+    //   "extract": false,
+    //   "bin-file": true  // Will use the original filename
+    // }
+
+    // Example with multiple hash verification:
+    // {
+    //   "name": "multi-hash-verification",
+    //   "url": "https://example.com/archive.tar.gz",
+    //   "hashes": [
+    //     "sha256:abc123...",
+    //     "sha512:def456..."
+    //   ],
+    //   "extract": true,
+    //   "bin-file": "extracted-binary"
+    // }
+
+    // INVALID EXAMPLES (will cause validation errors):
+    // {
+    //   "name": "invalid-version-placeholder",
+    //   "url": "https://example.com/v$version/file.zip",
+    //   "version": "$version",  // ❌ ERROR: version field cannot contain placeholders
+    //   "hash": "sha256:abc123..."
+    // }
+    // {
+    //   "name": "invalid-uppercase-placeholder",
+    //   "url": "https://example.com/v$VERSION/file.zip",
+    //   "version": "v$VERSION",  // ❌ ERROR: version field cannot contain placeholders
+    //   "hash": "sha256:abc123..."
+    // }
+  ]
+}
