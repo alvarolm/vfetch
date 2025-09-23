@@ -92,7 +92,7 @@
 3. **Run vfetch** and get verified, organized files
 
 ```bash
-# Download and verify Go 1.21.6
+# Download and verify esbuild
 vfetch -config my-tools.json
 ```
 
@@ -103,12 +103,11 @@ Example `my-tools.json`:
   "bins-dir": "/usr/local/bin",
   "fetch": [
     {
-      "name": "go",
-      "url": "https://go.dev/dl/go$version.linux-amd64.tar.gz",
-      "version": "1.21.6",
-      "hash": "sha256:3f934f40ac360b9c01f616a9aa1796d227d8b0328bf64cb045c7b8c4ee9caea4",
-      "extract": true,
-      "bin-file": "go/bin/go"
+      "name": "esbuild",
+      "url": "https://esbuild.github.io/dl/v$VERSION",
+      "version": "0.25.10",
+      "hash": "sha256:900b231b4d53dbd69e08f1e11ba1b406b1af588c9f4c2c560502012d974f7121",
+      "bin-file": true
     }
   ]
 }
