@@ -92,7 +92,7 @@
 3. **Run vfetch** and get verified, organized files
 
 ```bash
-# Download and verify esbuild
+# Download, verify and install esbuild
 vfetch -config my-tools.json
 ```
 
