@@ -165,7 +165,7 @@ go install github.com/alvarolm/vfetch@latest
 ```bash
 git clone https://github.com/alvarolm/vfetch
 cd vfetch
-go build -o vfetch .
+go build .
 cp ./vfetch /usr/local/bin
 ```
 
