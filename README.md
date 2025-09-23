@@ -69,7 +69,7 @@
 
 **Security by Design, Not by Accident**
 - Forces you to provide checksums for every download
-- Supports multiple hash algorithms (SHA256, SHA512, SHA3, BLAKE2b, BLAKE2s, BLAKE3)
+- Supports multiple hash algorithms (SHA256, SHA512, SHA3, BLAKE2b, BLAKE2s)
 - Makes verification failure explicit and loud
 - **Puts you in control** - you vet the checksums, not some package registry
 
