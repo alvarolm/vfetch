@@ -254,7 +254,7 @@ vfetch is designed to stay simple and focused. When contributing:
 
 ## License
 
-[MIT License](LICENSE) - Use it freely, but remember: **you** are responsible for verifying what you download.
+[LICENSE](LICENSE) - Use it freely, but remember: **you** are responsible for verifying what you download.
 
 ---
 
