@@ -100,7 +100,7 @@ Example `my-tools.json`:
 ```json
 {
   "output-dir": "/opt/tools",
-  "bins-dir": "/usr/local/bin",
+  "bins-dir": "/home/user/.bin",
   "fetch": [
     {
       "name": "esbuild",
