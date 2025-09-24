@@ -47,7 +47,7 @@
 
 > **Simple, secure downloads without the complexity of package managers**
 
-`vfetch` is a lightweight tool that downloads, verifies, and organizes files with cryptographic integrity checking. It bridges the gap between insecure `curl`/`wget` downloads and heavyweight package managers, making you conscious of security while keeping things simple.
+`vfetch` is a lightweight tool that downloads, verifies (integrity), and organizes files. It bridges the gap between insecure `curl`/`wget` downloads and heavyweight package managers, making you conscious of security while keeping things simple.
 
 ## Why vfetch?
 
