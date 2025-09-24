@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/tidwall/jsonc"
@@ -40,6 +41,25 @@ func LoadConfig(configPath string) (*Config, error) {
 	var config Config
 	if err := json.Unmarshal(jsonc.ToJSONInPlace(data), &config); err != nil {
 		return nil, fmt.Errorf("failed to parse config JSON: %w", err)
+	}
+
+	// Resolve relative paths in the config relative to the config file's directory
+	configDir := filepath.Dir(configPath)
+	if config.OutputDir != "" && !filepath.IsAbs(config.OutputDir) {
+		config.OutputDir = filepath.Join(configDir, config.OutputDir)
+	}
+	if config.BinsDir != "" && !filepath.IsAbs(config.BinsDir) {
+		config.BinsDir = filepath.Join(configDir, config.BinsDir)
+	}
+
+	// Resolve relative output-dir paths for individual items
+	for i := range config.Fetch {
+		if config.Fetch[i].OutputDir != "" && !filepath.IsAbs(config.Fetch[i].OutputDir) {
+			config.Fetch[i].OutputDir = filepath.Join(configDir, config.Fetch[i].OutputDir)
+		}
+		if config.Fetch[i].BinDir != "" && !filepath.IsAbs(config.Fetch[i].BinDir) {
+			config.Fetch[i].BinDir = filepath.Join(configDir, config.Fetch[i].BinDir)
+		}
 	}
 
 	return &config, nil
