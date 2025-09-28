@@ -70,6 +70,15 @@ func ValidateConfig(config *Config) error {
 		return fmt.Errorf("no fetch items specified")
 	}
 
+	// Check for duplicate names
+	namesSeen := make(map[string]int)
+	for i, item := range config.Fetch {
+		if firstIndex, exists := namesSeen[item.Name]; exists {
+			return fmt.Errorf("duplicate fetch item name '%s' found at indices %d and %d", item.Name, firstIndex, i)
+		}
+		namesSeen[item.Name] = i
+	}
+
 	for i, item := range config.Fetch {
 		if err := validateFetchItem(item, i); err != nil {
 			return err
@@ -186,4 +195,41 @@ func (item FetchItem) GetBinDir(globalBinDir string) string {
 		return item.BinDir
 	}
 	return globalBinDir
+}
+
+func FilterFetchItems(config *Config, names []string) ([]FetchItem, error) {
+	if len(names) == 0 {
+		return config.Fetch, nil
+	}
+
+	var filteredItems []FetchItem
+	nameSet := make(map[string]bool)
+
+	// Create a set of requested names for quick lookup
+	for _, name := range names {
+		nameSet[name] = true
+	}
+
+	// Find matching items and track which names were found
+	foundNames := make(map[string]bool)
+	for _, item := range config.Fetch {
+		if nameSet[item.Name] {
+			filteredItems = append(filteredItems, item)
+			foundNames[item.Name] = true
+		}
+	}
+
+	// Check if any requested names were not found
+	var missingNames []string
+	for _, name := range names {
+		if !foundNames[name] {
+			missingNames = append(missingNames, name)
+		}
+	}
+
+	if len(missingNames) > 0 {
+		return nil, fmt.Errorf("fetch items not found: %v", missingNames)
+	}
+
+	return filteredItems, nil
 }

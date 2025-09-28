@@ -23,9 +23,10 @@ func removeExisting(path string) error {
 	return nil
 }
 
+var versionMatcher = regexp.MustCompile(`(?i)\$version`)
+
 func replaceVersionPlaceholders(url, version string) string {
-	re := regexp.MustCompile(`(?i)\$version`)
-	return re.ReplaceAllString(url, version)
+	return versionMatcher.ReplaceAllString(url, version)
 }
 
 func ProcessFetchItem(config *Config, item FetchItem) error {

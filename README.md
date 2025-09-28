@@ -87,13 +87,19 @@
 
 ## Quick Start
 
-1. **Download vfetch** 
+1. **Download vfetch**
 2. **Create a config file** with your downloads and their checksums
 3. **Run vfetch** and get verified, organized files
 
 ```bash
-# Download, verify and install esbuild
+# Download all items in the config
 vfetch -config my-tools.json
+
+# Download specific items by name
+vfetch -config my-tools.json esbuild
+
+# Download multiple specific items
+vfetch -config my-tools.json esbuild jq node
 ```
 
 Example `my-tools.json`:
@@ -113,6 +119,50 @@ Example `my-tools.json`:
   ]
 }
 ```
+
+## Usage
+
+### Basic Commands
+
+```bash
+# Download all items defined in config
+vfetch -config vfetch-config.json
+
+# Download specific items by name
+vfetch -config vfetch-config.json go esbuild
+
+# Use default config file (vfetch-config.json)
+vfetch go jq
+```
+
+### Selective Downloads
+
+You can specify which items to download by providing their names as arguments:
+
+```bash
+# Download only development tools
+vfetch -config tools.json go node esbuild
+
+# Download only production dependencies
+vfetch -config prod.json nginx postgres redis
+```
+
+**Benefits of selective downloading:**
+- **Faster execution** - only download what you need
+- **Bandwidth efficient** - skip unnecessary downloads
+- **Testing friendly** - verify individual items during development
+- **Deployment flexibility** - different tools for different environments
+
+### Error Handling
+
+If you specify a name that doesn't exist in the config, vfetch will fail with a clear error:
+
+```bash
+$ vfetch -config vfetch-config.json nonexistent-tool
+Failed to filter fetch items: fetch items not found: [nonexistent-tool]
+```
+
+This **fail-fast behavior** prevents partial downloads and ensures you get exactly what you expect.
 
 ## Key Features
 
@@ -176,7 +226,7 @@ cp ./vfetch /usr/local/bin
 See [example-config.json](example-config.json) for a comprehensive configuration example with all available options.
 
 ### Required Fields
-- `name`: Human-readable identifier
+- `name`: Human-readable identifier (used for selective downloading)
 - `url`: Download URL (supports `$version` placeholders)
 - `version`: Version identifier
 - `hash` or `hashes`: Cryptographic verification
@@ -186,6 +236,8 @@ See [example-config.json](example-config.json) for a comprehensive configuration
 - `bin-file`: Create executable symlinks
 - `output-dir`: Override global output directory
 - `bin-dir`: Override global binary directory
+
+**Note:** The `name` field is used for selective downloading. When you run `vfetch -config vfetch-config.json go node`, vfetch will look for items with `"name": "go"` and `"name": "node"` in your configuration.
 
 ## Examples
 

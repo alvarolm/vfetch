@@ -11,10 +11,12 @@ func main() {
 	flag.StringVar(&configPath, "config", "", "Path to configuration file")
 	flag.Parse()
 
+	fetchNames := flag.Args()
+
 	if configPath == "" {
 		fmt.Printf("Using default config path since none was provided\n")
 		fmt.Printf("To specify a custom path, use: vfetch -config <path>\n")
-		configPath = "config.json"
+		configPath = "vfetch-config.json"
 	}
 	fmt.Printf("Config path: %s\n", configPath)
 
@@ -27,7 +29,12 @@ func main() {
 		log.Fatalf("Invalid configuration: %v", err)
 	}
 
-	for i, fetchItem := range config.Fetch {
+	fetchItems, err := FilterFetchItems(config, fetchNames)
+	if err != nil {
+		log.Fatalf("Failed to filter fetch items: %v", err)
+	}
+
+	for i, fetchItem := range fetchItems {
 		fmt.Printf("Processing item %d: %s\n", i+1, fetchItem.Name)
 
 		if err := ProcessFetchItem(config, fetchItem); err != nil {
