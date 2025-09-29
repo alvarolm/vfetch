@@ -137,16 +137,6 @@ vfetch go jq
 
 ### Selective Downloads
 
-You can specify which items to download by providing their names as arguments:
-
-```bash
-# Download only development tools
-vfetch -config tools.json go node esbuild
-
-# Download only production dependencies
-vfetch -config prod.json nginx postgres redis
-```
-
 **Benefits of selective downloading:**
 - **Faster execution** - only download what you need
 - **Bandwidth efficient** - skip unnecessary downloads
